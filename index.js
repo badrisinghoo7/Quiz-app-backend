@@ -1,8 +1,9 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const router = require("./router/route.js");
-const { connection } = require("mongoose");
+
+const router = require("./router/route");
+const { connection } = require("./db");
 require("dotenv").config();
 
 const app = express();
@@ -12,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 /** appliation port */
-const PORT = process.env.PORT || 8080;
+const PORT = 8080;
 
 /** routes */
 app.use("/api", router); /** apis */
@@ -26,7 +27,7 @@ app.get("/", (req, res) => {
 });
 
 /** start server only when we have valid connection */
-app.listen(process.env.PORT, async () => {
+app.listen(PORT, async () => {
   try {
     await connection;
     console.log("Connected to MongoDB");
